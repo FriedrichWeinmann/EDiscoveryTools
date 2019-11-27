@@ -1,33 +1,62 @@
-﻿# Description
+﻿# EDiscoveryTools
 
-Insert a useful description for the EDiscoveryTools project here.
+## Description
 
-Remember, it's the first thing a visitor will see.
+A module to help manage Azure Office 365 eDiscovery.
+It helps connecting using modern authentication, adds comfort features such as tab completion and includes case & search creation accelerators.
 
-# Project Setup Instructions
-## Working with the layout
+It also allows creating preconfigured filter groups using a tag based approach:
+Using configuration, you can define a label ("tag") and assign any number of mailboxes or group addresses to it.
+These tags will then be available when creating searches, making it easier to create commonly applicable filter groups.
 
- - Don't touch the psm1 file
- - Place functions you export in `functions/` (can have subfolders)
- - Place private/internal functions invisible to the user in `internal/functions` (can have subfolders)
- - Don't add code directly to the `postimport.ps1` or `preimport.ps1`.
-   Those files are designed to import other files only.
- - When adding files you load during `preimport.ps1`, be sure to add corresponding entries to `filesBefore.txt`.
-   The text files are used as reference when compiling the module during the build script.
- - When adding files you load during `postimport.ps1`, be sure to add corresponding entries to `filesAfter.txt`.
-   The text files are used as reference when compiling the module during the build script.
+> This is especially designed for scenarios where a user has too many privileges to meaningfully use SecurityFilters (as these are used to grant new privileges, not constrain existing ones).
 
-## Setting up CI/CD
+## Installation
 
-> To create a PR validation pipeline, set up tasks like this:
+```powershell
+Install-Module EDiscoveryTools
+```
 
- - Install Prerequisites (PowerShell Task; VSTS-Prerequisites.ps1)
- - Validate (PowerShell Task; VSTS-Validate.ps1)
- - Publish Test Results (Publish Test Results; NUnit format; Run no matter what)
+This will install the module and all dependencies on your machine.
 
-> To create a build/publish pipeline, set up tasks like this:
+> PowerShellGet error
 
- - Install Prerequisites (PowerShell Task; VSTS-Prerequisites.ps1)
- - Validate (PowerShell Task; VSTS-Validate.ps1)
- - Build (PowerShell Task; VSTS-Build.ps1)
- - Publish Test Results (Publish Test Results; NUnit format; Run no matter what)
+One dependency requires a current version of the PowerShellGet module to be available first.
+If you encounter an error like that, run the following line:
+
+```powershell
+Install-Module PowerShellGet -Force -AllowClobber
+```
+
+Then _close the powershell console and start a new one_ .
+This only takes effect on a new console!
+
+## Connecting
+
+Once installed, connecting to the service is a simple matter of running the following command:
+
+```powershell
+Connect-EDiscovery
+```
+
+(You will get prompted for credentials, this _does_ support MFA)
+
+## Creating a new case
+
+To create a new case, run:
+
+```powershell
+New-EDisCase -Name NewCaseName -CaseID "YourExternalCaseID"
+```
+
+Want to also create a search?
+
+```powershell
+New-EDisCase -Name NewCaseName -CaseID "YourExternalCaseID" -SearchName MySearch
+```
+
+Let's assume you had already defined the tag "Europe", pointing at all Distribution Groups that identify a user from Europe, having that filter to only apply to those would be a matter of:
+
+```powershell
+New-EDisCase -Name NewCaseName -CaseID "YourExternalCaseID" -SearchName MySearch -SearchTag Europe
+```
