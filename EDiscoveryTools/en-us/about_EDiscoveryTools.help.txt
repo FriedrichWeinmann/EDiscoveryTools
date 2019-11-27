@@ -1,0 +1,11 @@
+﻿TOPIC
+	about_EDiscoveryTools
+	
+SHORT DESCRIPTION
+	Explains how to use the EDiscoveryTools powershell module
+	
+LONG DESCRIPTION
+	<Insert Content here>
+
+KEYWORDS
+	EDiscoveryTools
