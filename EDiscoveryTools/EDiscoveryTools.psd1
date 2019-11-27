@@ -3,7 +3,7 @@
 	RootModule = 'EDiscoveryTools.psm1'
 	
 	# Version number of this module.
-	ModuleVersion = '1.0.0'
+	ModuleVersion = '0.1.0'
 	
 	# ID used to uniquely identify this module
 	GUID = '7f0650cf-ce4b-499f-8273-0b22a9f165c3'
